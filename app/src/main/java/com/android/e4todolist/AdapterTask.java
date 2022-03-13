@@ -3,6 +3,7 @@ package com.android.e4todolist;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 
 
@@ -17,10 +18,13 @@ import java.util.ArrayList;
 public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox check;
+        Button delete;
 
         ViewHolder(View view) {
             super(view);
             check = view.findViewById(R.id.itemCheck);
+            delete = view.findViewById(R.id.btn_delete);
+
         }
     }
 
@@ -45,6 +49,13 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
         holder.check.setText(list.get(position).getName());
         holder.check.setChecked(list.get(position).getDone());
         holder.check.setOnCheckedChangeListener((buttonView, isChecked) -> list.get(pos).setDone(isChecked));
+        holder.delete.setOnClickListener(v -> deleteItem(pos));
+
+    }
+
+    public void deleteItem(int position) {
+        list.remove(position);
+        notifyItemRemoved(position);
     }
 
     @Override

@@ -19,7 +19,7 @@
 
 
         <Button
-            android:id="@+id/btn_go"
+            android:id="@+id/btn_delete"
             android:layout_width="97dp"
             android:layout_height="45dp"
             android:layout_marginLeft="290dp"
