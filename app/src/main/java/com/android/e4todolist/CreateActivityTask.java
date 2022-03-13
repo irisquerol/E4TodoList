@@ -22,7 +22,6 @@ public class CreateActivityTask extends AppCompatActivity {
         btn.setOnClickListener(v -> {
             new_title = findViewById(R.id.new_task_title);
             openListActivity(new_title.getText().toString());
-
         });
 
     }

@@ -1,26 +1,26 @@
 package com.android.e4todolist;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.CheckBox;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Collections;
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     //FragmentManager fm = getSupportFragmentManager();
     //Fragment fragment = fm.findFragmentById(R.id.fragment_container);
-
+    private ArrayList<String> tasks = new ArrayList<>();
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         checkIntent();
 
@@ -44,15 +44,23 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void addItemToList() {
-
+    public void setTasks() {
+        CheckBox item = findViewById(R.id.itemCheck);
+        for (String task: tasks) {
+            
+        }
     }
 
     public void checkIntent() {
         if (getIntent().getExtras() != null) {
             Intent intentGetter = getIntent();
             String strValue = intentGetter.getStringExtra("taskTitle");
-            Log.d("myTag", "This is the  variable value: " + strValue);
+            if (!strValue.equals("")) {
+                tasks.add(strValue);
+                Log.d("myTag", "This is the  variable value: " + strValue);
+                setTasks();
+            }
+
         }
     }
 }
