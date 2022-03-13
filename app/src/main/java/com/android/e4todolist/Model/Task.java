@@ -7,11 +7,36 @@ import android.os.Parcelable;
 
 public class Task implements Parcelable {
     private String name;
-    private Boolean done;
+    private boolean done;
+
 
     public Task(String name) {
         this.name = name;
-        done = false;
+        this.done = false;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(Boolean done) {
+        this.done = done;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeByte((byte) (done ? 1 : 2));
     }
 
     protected Task(Parcel in) {
@@ -31,27 +56,4 @@ public class Task implements Parcelable {
             return new Task[size];
         }
     };
-
-    public String getName() {
-        return name;
-    }
-
-    public Boolean getDone() {
-        return done;
-    }
-
-    public void setDone(Boolean done) {
-        this.done = done;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(name);
-        parcel.writeByte((byte) (done == null ? 0 : done ? 1 : 2));
-    }
 }

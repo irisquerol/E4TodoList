@@ -23,6 +23,7 @@ public class ListActivity extends AppCompatActivity {
 
     /**
      * Sets contentView and calls the different methods used bu the app
+     *
      * @param savedInstanceState bundle
      */
     @Override

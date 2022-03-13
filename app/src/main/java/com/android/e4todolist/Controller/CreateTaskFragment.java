@@ -69,6 +69,7 @@ public class CreateTaskFragment extends BottomSheetDialogFragment {
 
         btn_add.setOnClickListener(v -> {
             String taskTitle = new_title.getText().toString();
+            taskTitle = taskTitle.substring(0, 1).toUpperCase() + taskTitle.substring(1);
             if (!taskTitle.equals("")) {
                 taskList.add(new Task(taskTitle));
             }

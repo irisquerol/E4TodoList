@@ -37,7 +37,8 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
 
     /**
      * Methods that calls an item of a task ui (fragment_task.xml)
-     * @param parent Viewgroup
+     *
+     * @param parent   Viewgroup
      * @param viewType int
      * @return itemview
      */
@@ -51,27 +52,34 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
 
     /**
      * Function that manages the position of each task and knows if a task boxcheck has been checked
-     * and updates
-     * @param holder view
+     * and updates it,
+     * sets invisible the buttons for default tasks
+     *
+     * @param holder   view
      * @param position integer of tasks
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final int pos = position;
         holder.check.setText(list.get(position).getName());
-        holder.check.setChecked(list.get(position).getDone());
-        holder.check.setOnCheckedChangeListener((buttonView, isChecked) -> list.get(pos).setDone(isChecked));
+        holder.check.setChecked(list.get(position).isDone());
+        if (pos == 0 || pos == 1 || pos == 2 || pos == 3 || pos == 4) {
+            holder.delete.setVisibility(View.GONE);
+        }
         holder.delete.setOnClickListener(v -> deleteItem(pos));
-
+        holder.check.setOnCheckedChangeListener((buttonView, isChecked) -> list.get(pos).setDone(isChecked));
     }
 
     public void deleteItem(int position) {
-        list.remove(position);
-        notifyItemRemoved(position);
+        if (list.get(position) != null) {
+            list.remove(position);
+            notifyItemRemoved(position);
+        }
     }
 
     /**
      * Returns the list size
+     *
      * @return size of items in list
      */
     @Override
