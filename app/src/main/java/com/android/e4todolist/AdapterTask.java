@@ -35,6 +35,12 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
     }
 
 
+    /**
+     * Methods that calls an item of a task ui (fragment_task.xml)
+     * @param parent Viewgroup
+     * @param viewType int
+     * @return itemview
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -43,6 +49,12 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
         return new ViewHolder(itemView);
     }
 
+    /**
+     * Function that manages the position of each task and knows if a task boxcheck has been checked
+     * and updates
+     * @param holder view
+     * @param position integer of tasks
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final int pos = position;
@@ -58,6 +70,10 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
         notifyItemRemoved(position);
     }
 
+    /**
+     * Returns the list size
+     * @return size of items in list
+     */
     @Override
     public int getItemCount() {
         return list.size();

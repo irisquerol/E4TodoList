@@ -1,11 +1,9 @@
 package com.android.e4todolist.Controller;
 
-import android.app.Activity;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.view.LayoutInflater;
@@ -41,6 +39,13 @@ public class CreateTaskFragment extends BottomSheetDialogFragment {
         //setStyle(STYLE_NORMAL, R.style.DialogStyle);
     }
 
+    /**
+     * Shows the fragment in screen
+     * @param inflater layout
+     * @param container view
+     * @param savedInstanceState bundle
+     * @return view
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -51,6 +56,11 @@ public class CreateTaskFragment extends BottomSheetDialogFragment {
         return view;
     }
 
+    /**
+     * Asks the user the task name, configures the add button and sends the string to ListActivity
+     * @param view view
+     * @param savedInstanceState bundle
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -69,10 +79,5 @@ public class CreateTaskFragment extends BottomSheetDialogFragment {
         });
     }
 
-    @Override
-    public void onDismiss(@NonNull DialogInterface dialog) {
-        Activity activity = getActivity();
-
-    }
 
 }

@@ -21,6 +21,10 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<Task> taskList = new ArrayList<>();
     AdapterTask adapterTask;
 
+    /**
+     * Sets contentView and calls the different methods used bu the app
+     * @param savedInstanceState bundle
+     */
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,9 @@ public class ListActivity extends AppCompatActivity {
         buttonAdd.setOnClickListener(v -> openFragmentActivity());
     }
 
+    /**
+     * Adds the default task to the app every time the app is started
+     */
     private void setDefaultTasks() {
         taskList.add(new Task(getResources().getString(R.string.task1)));
         taskList.add(new Task(getResources().getString(R.string.task2)));
@@ -42,11 +49,17 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Opens the Fragment to add new tasks.
+     */
     private void openFragmentActivity() {
         CreateTaskFragment.newInstance(taskList).show(getSupportFragmentManager(), "ActionBottomDialog");
     }
 
 
+    /**
+     * Function that adds the task to the recyclerview list
+     */
     public void setTasks() {
         tasksRecyclerView = findViewById(R.id.list);
         //tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -54,6 +67,9 @@ public class ListActivity extends AppCompatActivity {
         tasksRecyclerView.setAdapter(adapterTask);
     }
 
+    /**
+     * Function that receives a string and checks if a new task has been introduced, if it has it calls the function to add it
+     */
     public void checkIntent() {
         if (getIntent().getExtras() != null) {
             Intent intentGetter = getIntent();
