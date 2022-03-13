@@ -1,17 +1,14 @@
 <resources>
-    <string name="app_name">Ex4TodoList</string>
+    <string name="app_name">Todo List</string>
     <string name="create_title">ADDING A TASK</string>
     <string name="task_title_statement">Task title:</string>
     <string name="title_hint">Title</string>
     <string name="title_activity_main">MainActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="task1">Sacar al perro</string>
+    <string name="task2">Comprar el pan</string>
+    <string name="task3">Revisar el correo de la salle</string>
+    <string name="task4">Preparar reuniones del día</string>
+    <string name="task5">Hacer ejercicio</string>
+    <string name="add">ADD</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
