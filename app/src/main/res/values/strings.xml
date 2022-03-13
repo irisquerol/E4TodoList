@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Todo List</string>
-    <string name="create_title">ADDING A TASK</string>
-    <string name="task_title_statement">Task title:</string>
+    <string name="create_title">ADDING A TASK:  </string>
+    <string name="task_title_statement">Task title</string>
     <string name="title_hint">Title</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="task1">Sacar al perro</string>
@@ -10,5 +10,6 @@
     <string name="task4">Preparar reuniones del día</string>
     <string name="task5">Hacer ejercicio</string>
     <string name="add">ADD</string>
+    <string name="delete">Delete</string>
 
 </resources>
