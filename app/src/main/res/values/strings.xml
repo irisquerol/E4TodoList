@@ -11,5 +11,8 @@
     <string name="task5">Hacer ejercicio</string>
     <string name="add">ADD</string>
     <string name="delete">Delete</string>
+    <string name="editing_a_task">Editing a task:</string>
+    <string name="edit">edit</string>
+    <string name="edit_task_title">Edit Task Title</string>
 
 </resources>
