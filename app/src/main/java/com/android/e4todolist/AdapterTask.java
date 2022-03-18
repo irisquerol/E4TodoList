@@ -3,35 +3,67 @@ package com.android.e4todolist;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.android.e4todolist.Controller.ListActivity;
 import com.android.e4todolist.Model.Task;
 
 import java.util.ArrayList;
 
 public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        CheckBox check;
-        Button delete;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        CheckBox task_checkbox;
+        ImageButton delete_btn;
+        ImageButton edit_btn;
+
 
         ViewHolder(View view) {
             super(view);
-            check = view.findViewById(R.id.itemCheck);
-            delete = view.findViewById(R.id.btn_delete);
-
+            task_checkbox = view.findViewById(R.id.itemCheck);
+            delete_btn = view.findViewById(R.id.btn_delete);
+            edit_btn = view.findViewById(R.id.btn_save_edit);
         }
+
+
+        public void bind(int pos) {
+            task_checkbox.setText(list.get(pos).getName());
+            task_checkbox.setChecked(list.get(pos).isDone());
+            delete_btn.setOnClickListener(v -> deleteItem(list, pos));
+            edit_btn.setOnClickListener(v -> editItem(list, pos));
+            task_checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> list.get(pos).setDone(isChecked));
+            //The default tasks cannot be edited or deleted:
+            if (pos <= 4) {
+                delete_btn.setVisibility(View.GONE);
+                edit_btn.setVisibility(View.GONE);
+            }
+        }
+
+
+        public void deleteItem(ArrayList<Task> list, int pos) {
+            list.remove(pos);
+            notifyItemRemoved(pos);
+            notifyItemRangeChanged(pos, list.size());
+        }
+
+        public void editItem(ArrayList<Task> list, int pos) {
+            activity.openEditTaskFragment(list, pos);
+        }
+
     }
 
     private ArrayList<Task> list;
+    private ListActivity activity;
 
-    public AdapterTask(ArrayList<Task> list) {
+    public AdapterTask(ListActivity activity, ArrayList<Task> list) {
+        this.activity = activity;
         this.list = list;
+
     }
 
 
@@ -60,22 +92,9 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final int pos = position;
-        holder.check.setText(list.get(position).getName());
-        holder.check.setChecked(list.get(position).isDone());
-        if (pos == 0 || pos == 1 || pos == 2 || pos == 3 || pos == 4) {
-            holder.delete.setVisibility(View.GONE);
-        }
-        holder.delete.setOnClickListener(v -> deleteItem(pos));
-        holder.check.setOnCheckedChangeListener((buttonView, isChecked) -> list.get(pos).setDone(isChecked));
+        holder.bind(position);
     }
 
-    public void deleteItem(int position) {
-        if (list.get(position) != null) {
-            list.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
 
     /**
      * Returns the list size

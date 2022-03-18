@@ -3,9 +3,7 @@ package com.android.e4todolist.Controller;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.android.e4todolist.AdapterTask;
 import com.android.e4todolist.Model.Task;
@@ -15,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity implements MyListener {
     private FloatingActionButton buttonAdd;
     private RecyclerView tasksRecyclerView;
     ArrayList<Task> taskList = new ArrayList<>();
@@ -32,10 +30,10 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setDefaultTasks();
         setContentView(R.layout.activity_list);
-        checkIntent();
+        setTasks();
 
         buttonAdd = findViewById(R.id.fab);
-        buttonAdd.setOnClickListener(v -> openFragmentActivity());
+        buttonAdd.setOnClickListener(v -> openCreateTaskFragment());
     }
 
     /**
@@ -53,8 +51,14 @@ public class ListActivity extends AppCompatActivity {
     /**
      * Opens the Fragment to add new tasks.
      */
-    private void openFragmentActivity() {
-        CreateTaskFragment.newInstance(taskList).show(getSupportFragmentManager(), "ActionBottomDialog");
+    private void openCreateTaskFragment() {
+        CreateTaskFragment fragment = CreateTaskFragment.newInstance();
+        fragment.show(getSupportFragmentManager(), "ActionBottomDialog");
+    }
+
+    public void openEditTaskFragment(ArrayList<Task> list, int pos) {
+        EditTaskFragment fragment = EditTaskFragment.newInstance(list, pos);
+        fragment.show(getSupportFragmentManager(), "ActionBottomDialog");
     }
 
 
@@ -63,20 +67,17 @@ public class ListActivity extends AppCompatActivity {
      */
     public void setTasks() {
         tasksRecyclerView = findViewById(R.id.list);
-        //tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapterTask = new AdapterTask(taskList);
+        adapterTask = new AdapterTask(this, taskList);
         tasksRecyclerView.setAdapter(adapterTask);
     }
 
-    /**
-     * Function that receives a string and checks if a new task has been introduced, if it has it calls the function to add it
-     */
-    public void checkIntent() {
-        if (getIntent().getExtras() != null) {
-            Intent intentGetter = getIntent();
-            taskList = intentGetter.getParcelableArrayListExtra("list");
-            Log.d("myTag", "list" + taskList.get(0));
+
+    @Override
+    public void sendTaskName(String taskName, int pos) {
+        if (pos == 0) {
+            taskList.add(new Task(taskName));
         }
+
         setTasks();
     }
 }

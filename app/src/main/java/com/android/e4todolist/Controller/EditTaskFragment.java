@@ -3,10 +3,6 @@ package com.android.e4todolist.Controller;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +10,33 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.android.e4todolist.Model.Task;
 import com.android.e4todolist.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class CreateTaskFragment extends BottomSheetDialogFragment {
+import java.util.ArrayList;
 
-    private Button btn_add;
-    private EditText new_title;
+
+public class EditTaskFragment extends BottomSheetDialogFragment {
+
+    private int pos;
+    private Button btn_save;
+    private EditText edited_task;
     private MyListener taskListener;
+    private ArrayList<Task> list;
 
-    public static CreateTaskFragment newInstance() {
-        return new CreateTaskFragment();
+
+    public static EditTaskFragment newInstance(ArrayList<Task> list, int pos) {
+        return new EditTaskFragment(list, pos);
     }
 
+    public EditTaskFragment(ArrayList<Task> list, int pos) {
+        this.list = list;
+        this.pos = pos;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +55,7 @@ public class CreateTaskFragment extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_create_task, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_task, container, false);
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         return view;
     }
@@ -59,15 +69,17 @@ public class CreateTaskFragment extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        new_title = getView().findViewById(R.id.new_task_title);
-        btn_add = getView().findViewById(R.id.btn_save);
+        edited_task = getView().findViewById(R.id.edit_task_title);
+        edited_task.setText(list.get(pos).getName());
+        btn_save = getView().findViewById(R.id.btn_save_edit);
 
-        btn_add.setOnClickListener(v -> {
-            String taskTitle = new_title.getText().toString();
+        btn_save.setOnClickListener(v -> {
+            String taskTitle = edited_task.getText().toString();
             if (!taskTitle.equals("")) {
                 if (taskListener != null) {
                     taskTitle = taskTitle.substring(0, 1).toUpperCase() + taskTitle.substring(1);
-                    taskListener.sendTaskName(taskTitle, 0);
+                    list.get(pos).setName(taskTitle);
+                    taskListener.sendTaskName(taskTitle, pos);
                 }
             }
             this.dismiss();
@@ -79,4 +91,5 @@ public class CreateTaskFragment extends BottomSheetDialogFragment {
         super.onAttach(context);
         taskListener = (MyListener) context;
     }
+
 }
