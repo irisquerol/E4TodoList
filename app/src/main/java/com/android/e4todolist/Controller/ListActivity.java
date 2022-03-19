@@ -3,12 +3,16 @@ package com.android.e4todolist.Controller;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.android.e4todolist.AdapterTask;
 import com.android.e4todolist.Model.Task;
+import com.android.e4todolist.Model.TaskManager;
 import com.android.e4todolist.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -16,8 +20,8 @@ import java.util.ArrayList;
 public class ListActivity extends AppCompatActivity implements MyListener {
     private FloatingActionButton buttonAdd;
     private RecyclerView tasksRecyclerView;
-    ArrayList<Task> taskList = new ArrayList<>();
-    AdapterTask adapterTask;
+    //ArrayList<Task> taskList = new ArrayList<>();
+    private AdapterTask adapterTask;
 
     /**
      * Sets contentView and calls the different methods used bu the app
@@ -28,23 +32,13 @@ public class ListActivity extends AppCompatActivity implements MyListener {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setDefaultTasks();
+
+
         setContentView(R.layout.activity_list);
         setTasks();
 
         buttonAdd = findViewById(R.id.fab);
         buttonAdd.setOnClickListener(v -> openCreateTaskFragment());
-    }
-
-    /**
-     * Adds the default task to the app every time the app is started
-     */
-    private void setDefaultTasks() {
-        taskList.add(new Task(getResources().getString(R.string.task1)));
-        taskList.add(new Task(getResources().getString(R.string.task2)));
-        taskList.add(new Task(getResources().getString(R.string.task3)));
-        taskList.add(new Task(getResources().getString(R.string.task4)));
-        taskList.add(new Task(getResources().getString(R.string.task5)));
 
     }
 
@@ -66,18 +60,17 @@ public class ListActivity extends AppCompatActivity implements MyListener {
      * Function that adds the task to the recyclerview list
      */
     public void setTasks() {
+        TaskManager.getInstance(this).saveTasks();
         tasksRecyclerView = findViewById(R.id.list);
-        adapterTask = new AdapterTask(this, taskList);
+        adapterTask = new AdapterTask(this, TaskManager.getInstance(this).getTaskList());
         tasksRecyclerView.setAdapter(adapterTask);
     }
-
 
     @Override
     public void sendTaskName(String taskName, int pos) {
         if (pos == 0) {
-            taskList.add(new Task(taskName));
+            TaskManager.getInstance(this).addTask(new Task(taskName));
         }
-
         setTasks();
     }
 }

@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 
 
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.e4todolist.Controller.ListActivity;
 import com.android.e4todolist.Model.Task;
+import com.android.e4todolist.Model.TaskManager;
 
 import java.util.ArrayList;
 
@@ -36,7 +38,14 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
             task_checkbox.setChecked(list.get(pos).isDone());
             delete_btn.setOnClickListener(v -> deleteItem(list, pos));
             edit_btn.setOnClickListener(v -> editItem(list, pos));
-            task_checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> list.get(pos).setDone(isChecked));
+            task_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                        list.get(pos).setDone(isChecked);
+                        TaskManager.getInstance().saveTasks();
+                    }
+                }
+            );
             //The default tasks cannot be edited or deleted:
             if (pos <= 4) {
                 delete_btn.setVisibility(View.GONE);
@@ -44,9 +53,10 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
             }
         }
 
-
         public void deleteItem(ArrayList<Task> list, int pos) {
-            list.remove(pos);
+            TaskManager.getInstance().removeTask(pos);
+            TaskManager.getInstance().saveTasks();
+
             notifyItemRemoved(pos);
             notifyItemRangeChanged(pos, list.size());
         }

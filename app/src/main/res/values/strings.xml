@@ -15,4 +15,5 @@
     <string name="edit">edit</string>
     <string name="edit_task_title">Edit Task Title</string>
 
+    <string name="preference_file_key">preference_file_key</string>
 </resources>
