@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.e4todolist.Model.Task;
+import com.android.e4todolist.TaskListener;
 import com.android.e4todolist.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -25,7 +26,7 @@ public class EditTaskFragment extends BottomSheetDialogFragment {
     private int pos;
     private Button btn_save;
     private EditText edited_task;
-    private MyListener taskListener;
+    private TaskListener taskListener;
     private ArrayList<Task> list;
 
 
@@ -51,7 +52,6 @@ public class EditTaskFragment extends BottomSheetDialogFragment {
      * @param savedInstanceState bundle
      * @return view
      */
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -86,10 +86,15 @@ public class EditTaskFragment extends BottomSheetDialogFragment {
         });
     }
 
+    /**
+     * To associate the fragment to a listener {@link TaskListener}
+     *
+     * @param context context activity
+     */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        taskListener = (MyListener) context;
+        taskListener = (TaskListener) context;
     }
 
 }

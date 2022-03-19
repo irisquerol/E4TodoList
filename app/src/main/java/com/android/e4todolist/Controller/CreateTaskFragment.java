@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.e4todolist.TaskListener;
 import com.android.e4todolist.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -21,7 +22,7 @@ public class CreateTaskFragment extends BottomSheetDialogFragment {
 
     private Button btn_add;
     private EditText new_title;
-    private MyListener taskListener;
+    private TaskListener taskListener;
 
     public static CreateTaskFragment newInstance() {
         return new CreateTaskFragment();
@@ -74,9 +75,14 @@ public class CreateTaskFragment extends BottomSheetDialogFragment {
         });
     }
 
+    /**
+     * To associate the fragment to a listener {@link TaskListener}
+     *
+     * @param context context activity
+     */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        taskListener = (MyListener) context;
+        taskListener = (TaskListener) context;
     }
 }

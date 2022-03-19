@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 
 
@@ -19,12 +18,19 @@ import com.android.e4todolist.Model.TaskManager;
 import java.util.ArrayList;
 
 public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
+    /**
+     * VIEW HOLDER CLASS
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox task_checkbox;
         ImageButton delete_btn;
         ImageButton edit_btn;
 
-
+        /**
+         * Initializes checkbox and buttons finding by id
+         *
+         * @param view View
+         */
         ViewHolder(View view) {
             super(view);
             task_checkbox = view.findViewById(R.id.itemCheck);
@@ -32,19 +38,25 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
             edit_btn = view.findViewById(R.id.btn_save_edit);
         }
 
-
+        /**
+         * Sets the Task name in the checkbox
+         * Knows if a task checkbox has been checked and updates the Task boolean
+         * onClickListener of delete and edit buttons
+         * sets the buttons invisible  for default tasks
+         *
+         * @param pos position of the recycle view
+         */
         public void bind(int pos) {
+            ArrayList<Task> list = TaskManager.getInstance().getTaskList();
             task_checkbox.setText(list.get(pos).getName());
             task_checkbox.setChecked(list.get(pos).isDone());
-            delete_btn.setOnClickListener(v -> deleteItem(list, pos));
-            edit_btn.setOnClickListener(v -> editItem(list, pos));
-            task_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+            delete_btn.setOnClickListener(v -> deleteItem(pos));
+            edit_btn.setOnClickListener(v -> editItem(pos));
+
+            task_checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                         list.get(pos).setDone(isChecked);
                         TaskManager.getInstance().saveTasks();
                     }
-                }
             );
             //The default tasks cannot be edited or deleted:
             if (pos <= 4) {
@@ -53,27 +65,46 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
             }
         }
 
-        public void deleteItem(ArrayList<Task> list, int pos) {
+        /**
+         * Calls {@link TaskManager#removeTask(int)} and {@link TaskManager#saveTasks()} (int)}
+         * Notifies the item removed and the range change
+         *
+         * @param pos task wanna delete position
+         */
+        public void deleteItem(int pos) {
             TaskManager.getInstance().removeTask(pos);
             TaskManager.getInstance().saveTasks();
 
             notifyItemRemoved(pos);
-            notifyItemRangeChanged(pos, list.size());
+            notifyItemRangeChanged(pos, TaskManager.getInstance().getTaskList().size());
         }
 
-        public void editItem(ArrayList<Task> list, int pos) {
-            activity.openEditTaskFragment(list, pos);
+        /**
+         *
+         *
+         * @param pos
+         */
+        public void editItem( int pos) {
+            activity.openEditTaskFragment(pos);
+            notifyItemChanged(pos);
+
         }
 
     }
 
-    private ArrayList<Task> list;
-    private ListActivity activity;
 
-    public AdapterTask(ListActivity activity, ArrayList<Task> list) {
+    /**
+     * ADAPTER TASK CLASS
+     */
+    private final ListActivity activity;
+
+    /**
+     * ADAPTER CONSTRUCTOR
+     *
+     * @param activity main activity {@link ListActivity}
+     */
+    public AdapterTask(ListActivity activity) {
         this.activity = activity;
-        this.list = list;
-
     }
 
 
@@ -93,9 +124,8 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
     }
 
     /**
-     * Function that manages the position of each task and knows if a task boxcheck has been checked
-     * and updates it,
-     * sets invisible the buttons for default tasks
+     * Function that manages the position of each task
+     * calls {@link ViewHolder #bind(int)}
      *
      * @param holder   view
      * @param position integer of tasks
@@ -113,6 +143,6 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return list.size();
+        return TaskManager.getInstance().getTaskList().size();
     }
 }
