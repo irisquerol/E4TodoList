@@ -1,31 +1,34 @@
 package com.android.e4todolist.Model;
 
-public class Task {
+import java.io.Serializable;
 
-    private String name;
-    private boolean done;
+public class Task implements Serializable {
+    private Integer userId;
+    private Integer id;
+    private String title;
+    private boolean completed;
 
 
-    public Task(String name) {
-        this.name = name;
-        this.done = false;
+    public Task(String title) {
+        this.title = title;
+        this.completed = false;
     }
 
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public boolean isDone() {
-        return done;
+    public boolean isCompleted() {
+        return completed;
     }
 
-    public void setDone(Boolean done) {
-        this.done = done;
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
     }
 
 

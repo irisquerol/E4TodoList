@@ -26,14 +26,16 @@ public class TaskManager {
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String objectJSON = sharedPref.getString("taskList", null);
         if (objectJSON != null) {
-            Type type = new TypeToken<ArrayList<Task>>(){}.getType();
+            Type type = new TypeToken<ArrayList<Task>>() {
+            }.getType();
             taskList = new Gson().fromJson(objectJSON, type);
         } else {
-            taskList.add(new Task(context.getResources().getString(R.string.task1)));
+            /*taskList.add(new Task(context.getResources().getString(R.string.task1)));
             taskList.add(new Task(context.getResources().getString(R.string.task2)));
             taskList.add(new Task(context.getResources().getString(R.string.task3)));
             taskList.add(new Task(context.getResources().getString(R.string.task4)));
-            taskList.add(new Task(context.getResources().getString(R.string.task5)));
+            taskList.add(new Task(context.getResources().getString(R.string.task5)));*/
+
         }
     }
 

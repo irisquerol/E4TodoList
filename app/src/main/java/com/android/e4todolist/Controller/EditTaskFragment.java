@@ -70,7 +70,7 @@ public class EditTaskFragment extends BottomSheetDialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         edited_task = getView().findViewById(R.id.edit_task_title);
-        edited_task.setText(list.get(pos).getName());
+        edited_task.setText(list.get(pos).getTitle());
         btn_save = getView().findViewById(R.id.btn_save_edit);
 
         btn_save.setOnClickListener(v -> {
@@ -78,7 +78,7 @@ public class EditTaskFragment extends BottomSheetDialogFragment {
             if (!taskTitle.equals("")) {
                 if (taskListener != null) {
                     taskTitle = taskTitle.substring(0, 1).toUpperCase() + taskTitle.substring(1);
-                    list.get(pos).setName(taskTitle);
+                    list.get(pos).setTitle(taskTitle);
                     taskListener.sendTaskName(taskTitle, pos);
                 }
             }

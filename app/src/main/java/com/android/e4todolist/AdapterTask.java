@@ -48,13 +48,13 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
          */
         public void bind(int pos) {
             ArrayList<Task> list = TaskManager.getInstance().getTaskList();
-            task_checkbox.setText(list.get(pos).getName());
-            task_checkbox.setChecked(list.get(pos).isDone());
+            task_checkbox.setText(list.get(pos).getTitle());
+            task_checkbox.setChecked(list.get(pos).isCompleted());
             delete_btn.setOnClickListener(v -> deleteItem(pos));
             edit_btn.setOnClickListener(v -> editItem(pos));
 
             task_checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                        list.get(pos).setDone(isChecked);
+                        list.get(pos).setCompleted(isChecked);
                         TaskManager.getInstance().saveTasks();
                     }
             );
