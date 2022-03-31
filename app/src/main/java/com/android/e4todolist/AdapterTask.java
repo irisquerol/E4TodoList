@@ -58,11 +58,7 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
                         TaskManager.getInstance().saveTasks();
                     }
             );
-            //The default tasks cannot be edited or deleted:
-            if (pos <= 4) {
-                delete_btn.setVisibility(View.GONE);
-                edit_btn.setVisibility(View.GONE);
-            }
+
         }
 
         /**

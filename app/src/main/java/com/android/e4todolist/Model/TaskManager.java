@@ -30,11 +30,7 @@ public class TaskManager {
             }.getType();
             taskList = new Gson().fromJson(objectJSON, type);
         } else {
-            /*taskList.add(new Task(context.getResources().getString(R.string.task1)));
-            taskList.add(new Task(context.getResources().getString(R.string.task2)));
-            taskList.add(new Task(context.getResources().getString(R.string.task3)));
-            taskList.add(new Task(context.getResources().getString(R.string.task4)));
-            taskList.add(new Task(context.getResources().getString(R.string.task5)));*/
+            /*api*/
 
         }
     }
