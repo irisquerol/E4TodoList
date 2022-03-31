@@ -3,14 +3,23 @@ package com.android.e4todolist.Controller;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.android.e4todolist.AdapterTask;
 import com.android.e4todolist.Model.Task;
 import com.android.e4todolist.Model.TaskManager;
 import com.android.e4todolist.TaskListener;
 import com.android.e4todolist.R;
+import com.android.e4todolist.api.APIClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ListActivity extends AppCompatActivity implements TaskListener {
@@ -30,8 +39,27 @@ public class ListActivity extends AppCompatActivity implements TaskListener {
         setTasks();
         FloatingActionButton buttonAdd = findViewById(R.id.fab);
         buttonAdd.setOnClickListener(v -> openCreateTaskFragment());
+        Context context= this;
+        APIClient.getInstance().getList( new Callback<List<Task>>() {
+            @Override
+            public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
+                //Log.d("MAIN", response.body().getTitle());
+                for (Task t:response.body()) {
+                    TaskManager.getInstance(context).addTask(t);
+                }
+                //Log.d("MAIN", .get(150).getTitle());
+            }
 
+            @Override
+            public void onFailure(Call<List<Task>> call, Throwable t) {
+
+            }
+        });
     }
+
+
+
+
 
     /**
      * Opens the {@link CreateTaskFragment} to add new tasks.
