@@ -76,11 +76,9 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
         }
 
         /**
-         *
-         *
          * @param pos
          */
-        public void editItem( int pos) {
+        public void editItem(int pos) {
             activity.openEditTaskFragment(pos);
             notifyItemChanged(pos);
 
@@ -141,4 +139,6 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
     public int getItemCount() {
         return TaskManager.getInstance().getTaskList().size();
     }
+
+
 }

@@ -36,29 +36,12 @@ public class ListActivity extends AppCompatActivity implements TaskListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        TaskManager.getInstance(this);
         setTasks();
         FloatingActionButton buttonAdd = findViewById(R.id.fab);
         buttonAdd.setOnClickListener(v -> openCreateTaskFragment());
-        Context context= this;
-        APIClient.getInstance().getList( new Callback<List<Task>>() {
-            @Override
-            public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
-                //Log.d("MAIN", response.body().getTitle());
-                for (Task t:response.body()) {
-                    TaskManager.getInstance(context).addTask(t);
-                }
-                //Log.d("MAIN", .get(150).getTitle());
-            }
 
-            @Override
-            public void onFailure(Call<List<Task>> call, Throwable t) {
-
-            }
-        });
     }
-
-
-
 
 
     /**
@@ -99,10 +82,50 @@ public class ListActivity extends AppCompatActivity implements TaskListener {
      */
     @Override
     public void sendTaskName(String taskName, int pos) {
-        if (pos == 0) {
-            TaskManager.getInstance(this).addTask(new Task(taskName));
+        if (pos == 0) { //NEW TASK:
+            Task t = new Task(taskName);
+            TaskManager.getInstance(this).addTask(t);
+            addTaskApi(t);
+        } else { //EDITED TASK:
+            editTaskApi(TaskManager.getInstance(this).getTaskList().get(pos));
         }
+
         TaskManager.getInstance(this).saveTasks();
         tasksRecyclerView.setAdapter(adapterTask);
     }
+
+    private void editTaskApi(Task task) {
+        APIClient.getInstance().editTask(task, new Callback<Task>() {
+            @Override
+            public void onResponse(Call<Task> call, Response<Task> response) {
+                Log.d("EDIT", "You connected to the api and edited the task successfully");
+                //TODO HACER TOAST CONFORME SE HA EDITADO CONSEGUIDO CONEXION CON LA API PARA EDITAR
+            }
+
+            @Override
+            public void onFailure(Call<Task> call, Throwable t) {
+                Log.d("EDIT", "You had an error trying to connect to the api while editing the task");
+                //TODO HACER TOAST ERROR CONNECT PUT
+            }
+        });
+
+    }
+
+    public void addTaskApi(Task task) {
+        APIClient.getInstance().addTask(task, new Callback<Task>() {
+            @Override
+            public void onResponse(Call<Task> call, Response<Task> response) {
+                Log.d("ADD", "You connected to the api and added a task successfully");
+            }
+
+            @Override
+            public void onFailure(Call<Task> call, Throwable t) {
+                Log.d("ADD", "You had an error trying to connect to the api while adding a task");
+
+            }
+        });
+
+    }
 }
+
+

@@ -1,14 +1,10 @@
 package com.android.e4todolist.api;
 
-import android.util.Log;
-
 import com.android.e4todolist.Model.Task;
 
 import java.util.List;
 
-import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -32,12 +28,20 @@ public class APIClient {
         return apiClient;
 
     }
-
+    /*
     public void getTodo(Integer todo_id, Callback<Task> callback) {
-        this.service.getTodo(todo_id).enqueue(callback);
+        this.service.getTask(todo_id).enqueue(callback);
+    }*/
+
+    public void getList(Callback<List<Task>> callback) {
+        this.service.getList().enqueue(callback);
     }
 
-    public void getList(Callback<List<Task>> callback){
-        this.service.getList().enqueue(callback);
+    public void editTask(Task task, Callback<Task> callback) {
+        this.service.editTask(task).enqueue(callback);
+    }
+
+    public void addTask(Task task, Callback<Task> callback) {
+        this.service.addTask(task).enqueue(callback);
     }
 }

@@ -4,11 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.android.e4todolist.R;
+import com.android.e4todolist.api.APIClient;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TaskManager {
     private static TaskManager single_instance = null;
@@ -17,7 +23,8 @@ public class TaskManager {
 
     /**
      * Creates the default tasks and the class singelton, if there are values stored it loads.
-     * @param context  context
+     *
+     * @param context context
      */
     private TaskManager(Context context) {
         this.taskList = new ArrayList<>();
@@ -30,8 +37,7 @@ public class TaskManager {
             }.getType();
             taskList = new Gson().fromJson(objectJSON, type);
         } else {
-            /*api*/
-
+            getListApi();
         }
     }
 
@@ -42,6 +48,7 @@ public class TaskManager {
         if (single_instance == null) single_instance = new TaskManager(context);
         return single_instance;
     }
+
     /**
      * Gets the instance of singelton
      */
@@ -63,24 +70,46 @@ public class TaskManager {
         editor.apply();
     }
 
-    /**returns tasks list
+    /**
+     * returns tasks list
+     *
      * @return list task
      */
     public ArrayList<Task> getTaskList() {
         return taskList;
     }
 
-    /**Adds a task
+    /**
+     * Adds a task
+     *
      * @param task task
      */
     public void addTask(Task task) {
         taskList.add(task);
     }
 
-    /**Removes a task
+    /**
+     * Removes a task
+     *
      * @param idTask int
      */
     public void removeTask(int idTask) {
         taskList.remove(idTask);
+    }
+
+    private void getListApi() {
+        APIClient.getInstance().getList(new Callback<List<Task>>() {
+            @Override
+            public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
+                for (Task t : response.body()) {
+                    TaskManager.getInstance(context).addTask(t);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Task>> call, Throwable t) {
+
+            }
+        });
     }
 }
