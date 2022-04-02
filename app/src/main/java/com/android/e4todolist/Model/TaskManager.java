@@ -102,7 +102,7 @@ public class TaskManager {
             @Override
             public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
                 for (Task t : response.body()) {
-                    TaskManager.getInstance(context).addTask(t);
+                    addTask(t);
                 }
             }
 

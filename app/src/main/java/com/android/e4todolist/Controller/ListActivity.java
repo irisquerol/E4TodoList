@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.e4todolist.AdapterTask;
 import com.android.e4todolist.Model.Task;
@@ -99,12 +100,14 @@ public class ListActivity extends AppCompatActivity implements TaskListener {
             @Override
             public void onResponse(Call<Task> call, Response<Task> response) {
                 Log.d("EDIT", "You connected to the api and edited the task successfully");
+                Toast.makeText(getApplicationContext(),"You connected to the api and edited the task successfully",Toast.LENGTH_SHORT).show();
                 //TODO HACER TOAST CONFORME SE HA EDITADO CONSEGUIDO CONEXION CON LA API PARA EDITAR
             }
 
             @Override
             public void onFailure(Call<Task> call, Throwable t) {
                 Log.d("EDIT", "You had an error trying to connect to the api while editing the task");
+                Toast.makeText(getApplicationContext(),"You had an error trying to connect to the api while editing the task",Toast.LENGTH_SHORT).show();
                 //TODO HACER TOAST ERROR CONNECT PUT
             }
         });
@@ -116,11 +119,13 @@ public class ListActivity extends AppCompatActivity implements TaskListener {
             @Override
             public void onResponse(Call<Task> call, Response<Task> response) {
                 Log.d("ADD", "You connected to the api and added a task successfully");
+                Toast.makeText(getApplicationContext(),"You connected to the api and added a task successfully",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<Task> call, Throwable t) {
                 Log.d("ADD", "You had an error trying to connect to the api while adding a task");
+                Toast.makeText(getApplicationContext(),"You had an error trying to connect to the api while adding a task\"",Toast.LENGTH_SHORT).show();
 
             }
         });
