@@ -44,9 +44,8 @@ public class ListActivity extends AppCompatActivity implements TaskListener {
 
     }
 
-
     /**
-     * Opens the {@link CreateTaskFragment} to add new tasks.
+     * Opens the {@link CreateTaskFragment} to add new tasks.   *
      */
     private void openCreateTaskFragment() {
         CreateTaskFragment fragment = CreateTaskFragment.newInstance();
@@ -95,25 +94,32 @@ public class ListActivity extends AppCompatActivity implements TaskListener {
         tasksRecyclerView.setAdapter(adapterTask);
     }
 
+    /**
+     * shows a confirmed toast when a task is edited
+     * @param task task
+     */
     private void editTaskApi(Task task) {
         APIClient.getInstance().editTask(task, new Callback<Task>() {
             @Override
             public void onResponse(Call<Task> call, Response<Task> response) {
                 Log.d("EDIT", "You connected to the api and edited the task successfully");
                 Toast.makeText(getApplicationContext(),"You connected to the api and edited the task successfully",Toast.LENGTH_SHORT).show();
-                //TODO HACER TOAST CONFORME SE HA EDITADO CONSEGUIDO CONEXION CON LA API PARA EDITAR
+
             }
 
             @Override
             public void onFailure(Call<Task> call, Throwable t) {
                 Log.d("EDIT", "You had an error trying to connect to the api while editing the task");
                 Toast.makeText(getApplicationContext(),"You had an error trying to connect to the api while editing the task",Toast.LENGTH_SHORT).show();
-                //TODO HACER TOAST ERROR CONNECT PUT
+
             }
         });
 
     }
-
+    /**
+     * shows a confirmed toast when a task is added
+     * @param task task
+     */
     public void addTaskApi(Task task) {
         APIClient.getInstance().addTask(task, new Callback<Task>() {
             @Override

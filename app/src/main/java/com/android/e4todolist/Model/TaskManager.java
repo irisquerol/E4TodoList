@@ -41,6 +41,8 @@ public class TaskManager {
         }
     }
 
+
+
     /**
      * Gets instance of singelton
      */
@@ -86,6 +88,7 @@ public class TaskManager {
      */
     public void addTask(Task task) {
         taskList.add(task);
+        //saveTasks();
     }
 
     /**
@@ -97,7 +100,12 @@ public class TaskManager {
         taskList.remove(idTask);
     }
 
+    /**
+     * Converts the api list and with a loop it adds each task to the old list
+     */
     private void getListApi() {
+
+
         APIClient.getInstance().getList(new Callback<List<Task>>() {
             @Override
             public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
